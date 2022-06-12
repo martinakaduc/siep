@@ -8,7 +8,7 @@
 
 #include "hyper.h"
 
-#include "../control.h"
+
 
 using namespace std;
 
