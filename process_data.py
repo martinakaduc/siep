@@ -8,6 +8,10 @@ READY_DATASET_DIR = "./datasets"
 if __name__ == "__main__":
     datasdet_folder = sys.argv[1]
     READY_DATASET_DIR += '/' + sys.argv[2]
+    try:
+        os.mkdir(READY_DATASET_DIR)
+    except:
+        pass
 
     print("Processing datatset:", datasdet_folder)
     list_sources = os.listdir(datasdet_folder)
