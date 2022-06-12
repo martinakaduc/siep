@@ -49,6 +49,8 @@ if __name__ == "__main__":
             for start, end in zip(first_line_idxs[:-1], first_line_idxs[1:]):
                 with open(os.path.join(source_dir, "%s_%d_noniso.lg"%(source, sg_count)), 'w', encoding="utf-8") as wf:
                     for wline in lines[start:end]:
+                        if not wline:
+                            continue
                         if wline[0] == 'e':
                             wline = wline[:wline.rfind(" ")]
                         wf.write("%s\n" % wline)
