@@ -10,7 +10,6 @@
 #include "../util/Util.h"
 #include "../graph/Graph.h"
 
-#include "../../control.h"
 
 using namespace std;
 

@@ -8,7 +8,6 @@
 #include "../io/IO.h"
 #include "../seq/Seq.h"
 
-#include "../../control.h"
 
 using namespace std;
 

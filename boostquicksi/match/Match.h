@@ -9,7 +9,6 @@
 #include "../seq/Seq.h"
 #include "../hyper.h"
 
-#include "../../control.h"
 
 using namespace std;
 

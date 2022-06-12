@@ -11,7 +11,6 @@
 #include "../graph/Graph.h"
 #include "../match/Match.h"
 
-#include "../../control.h"
 
 using namespace std;
 

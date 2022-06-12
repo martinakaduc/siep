@@ -567,7 +567,7 @@ public:
     }
 };
 
-//一个结点只有一个label
+//一锟斤拷锟斤拷锟街伙拷锟揭伙拷锟絣abel
 class Query
 {
 public:

@@ -7,7 +7,6 @@
 #include "../graph/Graph.h"
 #include "../io/IO.h"
 
-#include "../../control.h"
 
 class Match
 {

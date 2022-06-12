@@ -14,7 +14,6 @@
 #include "../io/IO.h"
 #include "../hyper.h"
 
-#include "../../control.h"
 
 using namespace std;
 

@@ -11,9 +11,6 @@
 #include "nodesorter.hpp"
 #include "nodeclassifier.hpp"
 
-#include "../../control.h"
-
-
 #ifndef VF3BIO
 typedef int data_t;
 #else
@@ -221,6 +218,9 @@ int main(int argc, char** argv) {
     //clear temporary files
     string cmd = "rm -f " + pattern + " " + target;
     system(cmd.c_str());
+
+	cout << (nembeddings > 0 ? "True" : "False") << endl;
+	cout << sumt << endl;
 
 	return 0;
 }

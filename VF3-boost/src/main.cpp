@@ -10,7 +10,6 @@
 
 #include "vf3_sub_state.hpp"
 
-#include "../../control.h"
 
 using namespace std; 
 
