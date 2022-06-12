@@ -31,13 +31,15 @@ if __name__ == "__main__":
             first_line_idxs.append(len(lines))
             sg_count = 0
             for start, end in zip(first_line_idxs[:-1], first_line_idxs[1:]):
-                with open(os.path.join(source_dir, "%d_%d_iso.lg"%(source, sg_count)), 'w', encoding="utf-8") as wf:
+                with open(os.path.join(source_dir, "%s_%d_iso.lg"%(source, sg_count)), 'w', encoding="utf-8") as wf:
                     for wline in lines[start:end]:
                         if wline[0] == 'e':
                             wline = wline[:wline.rfind(" ")]
                         wf.write("%s\n" % wline)
 
                     wf.write("t # -1")
+
+                sg_count += 1
 
         with open(os.path.join(datasdet_folder, source, "noniso_subgraphs.lg"), 'r', encoding="utf-8") as f:
             lines = f.read().split("\n")
@@ -45,11 +47,13 @@ if __name__ == "__main__":
             first_line_idxs.append(len(lines))
             sg_count = 0
             for start, end in zip(first_line_idxs[:-1], first_line_idxs[1:]):
-                with open(os.path.join(source_dir, "%d_%d_noniso.lg"%(source, sg_count)), 'w', encoding="utf-8") as wf:
+                with open(os.path.join(source_dir, "%s_%d_noniso.lg"%(source, sg_count)), 'w', encoding="utf-8") as wf:
                     for wline in lines[start:end]:
                         if wline[0] == 'e':
                             wline = wline[:wline.rfind(" ")]
                         wf.write("%s\n" % wline)
 
                     wf.write("t # -1")
+
+                sg_count += 1
 
