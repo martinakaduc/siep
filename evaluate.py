@@ -6,7 +6,7 @@ from tqdm import tqdm
 from sklearn.metrics import roc_auc_score, accuracy_score, precision_score, recall_score, average_precision_score,f1_score
 
 if __name__ == "__main__":
-    alg = sys.arv[1]
+    alg = sys.argv[1]
     datatset_dir = sys.argv[2]
     result_dir = sys.argv[3]
 
