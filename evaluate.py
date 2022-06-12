@@ -18,28 +18,32 @@ if __name__ == "__main__":
     groundtruth = []
     predicted = []
 
-    list_subgraphs = os.listdir(datatset_dir)
-    list_subgraphs.remove("source.lg")
-    source_dir = os.path.join(datatset_dir, "source.lg")
+    list_sources = os.listdir(datatset_dir)
 
-    for subgraph in tqdm(list_subgraphs):
-        subgraph_dir = os.path.join(datatset_dir, subgraph)
+    for source in list_sources:
+        source_dir = os.path.join(datatset_dir, source)
+        list_subgraphs = os.listdir(source_dir)
+        list_subgraphs.remove("source.lg")
+        source_file = os.path.join(source_dir, "source.lg")
 
-        start = time.time()
-        process_out = subprocess.Popen([alg, source_dir, subgraph_dir], capture_output=True)
-        end = time.time()
+        for subgraph in list_subgraphs:
+            subgraph_file = os.path.join(source_dir, subgraph)
+            
+            start = time.time()
+            process_out = subprocess.Popen([alg, source_file, subgraph_file], capture_output=True)
+            end = time.time()
 
-        if 'noniso' in subgraph:
-            groundtruth.append(0)
-        else:
-            groundtruth.append(1)
+            if 'noniso' in subgraph:
+                groundtruth.append(0)
+            else:
+                groundtruth.append(1)
 
-        result = process_out.stdout.strip().split("\n")[-1]
+            result = process_out.stdout.strip().split("\n")[-1]
 
-        if result == "False":
-            predicted.append(0)
-        else:
-            predicted.append(1)
+            if result == "False":
+                predicted.append(0)
+            else:
+                predicted.append(1)
 
     test_roc = roc_auc_score(groundtruth, predicted)
     test_acc = accuracy_score(groundtruth, predicted)
