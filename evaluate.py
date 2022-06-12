@@ -53,7 +53,7 @@ if __name__ == "__main__":
     test_prc = average_precision_score(groundtruth, predicted)
     test_time = (end - start) / len(list_subgraphs)
 
-    with open(os.path.join(result_dir, "%s_result.csv"%os.basename(datatset_dir)), "w", encoding="utf-8") as f:
+    with open(os.path.join(result_dir, "%s_result.csv"%os.path.basename(datatset_dir)), "w", encoding="utf-8") as f:
         f.write("Confident,Execution Time,ROC AUC,PR AUC,Precision,Recall,F1-Score,Accuracy\n")
         f.write("100")
         f.write(",%f" % test_time)
