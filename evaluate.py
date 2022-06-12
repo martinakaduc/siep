@@ -30,7 +30,7 @@ if __name__ == "__main__":
             subgraph_file = os.path.join(source_dir, subgraph)
             
             start = time.time()
-            process_out = subprocess.Popen([alg, source_file, subgraph_file], capture_output=True)
+            process_out = subprocess.run([alg, source_file, subgraph_file], capture_output=True)
             end = time.time()
 
             if 'noniso' in subgraph:
