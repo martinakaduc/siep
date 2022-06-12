@@ -1765,6 +1765,9 @@ int main(int argc, char** argv) {
 	for(int i = 0; i < qlist.size(); ++i)
         	delete qlist[i];
 	//system("pause");
+
+    cout << (numofembeddings > 0 ? "True" : "False") << endl;
+
 	return 0;
 }
 

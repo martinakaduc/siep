@@ -93,6 +93,8 @@ int main(int argc, const char *argv[]) {
 	for(int i = 0; i < qnum; ++i)
 		delete query_list[i];
 
+	cout << (nmatchings > 0 ? "True" : "False") << endl;
+
 	return 0;
 }
 

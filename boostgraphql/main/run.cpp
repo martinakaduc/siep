@@ -119,6 +119,8 @@ main(int argc, const char * argv[])
 	printf("%-15s nembeddings:%6ld;   ncalls:%8ld;   time:%8ld ms;   mem:%-8.0lf kB    %s\n", 
 		"graphqlBoosted: ", numofembeddings, ncalls, sumt, max_mem, qid.c_str());
 
+    cout << (numofembeddings > 0 ? "True" : "False") << endl;
+
 	return 0;
 }
 

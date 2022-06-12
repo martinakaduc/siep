@@ -125,6 +125,8 @@ int main(int argc, const char * argv[]) {
 		delete query_list[i];
 	io.flush();
 
+	cout << (nembeddings > 0 ? "True" : "False") << endl;
+
 	return 0;
 }
 

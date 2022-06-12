@@ -220,7 +220,6 @@ int main(int argc, char** argv) {
     system(cmd.c_str());
 
 	cout << (nembeddings > 0 ? "True" : "False") << endl;
-	cout << sumt << endl;
 
 	return 0;
 }

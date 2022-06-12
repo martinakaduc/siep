@@ -79,5 +79,8 @@ int main(int argc, const char * argv[])
 	for(i = 0; i < qnum; ++i)
 		delete query_list[i];
 	io.flush();
+
+	cout << (numofembeddings > 0 ? "True" : "False") << endl;
+
 	return 0;
 }
