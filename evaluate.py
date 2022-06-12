@@ -20,7 +20,7 @@ if __name__ == "__main__":
 
     list_sources = os.listdir(datatset_dir)
 
-    for source in list_sources:
+    for source in tqdm(list_sources):
         source_dir = os.path.join(datatset_dir, source)
         list_subgraphs = os.listdir(source_dir)
         list_subgraphs.remove("source.lg")
