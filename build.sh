@@ -1,15 +1,15 @@
 #!/bin/bash
-cd boostgraphql & make
-cd BoostISO & make
-cd boostquicksi & make
-cd CECI & make
-cd CECI-boost & make
-cd cfl-boost & make
-cd cfl-match & make
-cd DAF & make
-cd DAF-boost & make
-cd graphql & make
-cd quicksi & make
-cd TurboISO & make
-cd VF3 & make
-cd VF3-boost & make
+cd boostgraphql && mkdir objs && make
+cd BoostISO && mkdir objs && make
+cd boostquicksi && mkdir objs && make
+cd CECI && mkdir objs && make
+cd CECI-boost && mkdir objs && make
+cd cfl-boost && mkdir objs && make
+cd cfl-match && mkdir objs && make
+cd DAF && mkdir objs && make
+cd DAF-boost && mkdir objs && make
+cd graphql && mkdir objs && make
+cd quicksi && mkdir objs && make
+cd TurboISO && mkdir objs && make
+cd VF3 && mkdir objs && make
+cd VF3-boost && mkdir objs && make
