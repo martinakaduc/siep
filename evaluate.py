@@ -38,7 +38,7 @@ if __name__ == "__main__":
             else:
                 groundtruth.append(1)
 
-            result = process_out.stdout.strip().split("\n")[-1]
+            result = process_out.stdout.decode("utf-8").strip().split("\n")[-1]
 
             if result == "False":
                 predicted.append(0)
