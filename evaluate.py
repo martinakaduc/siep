@@ -17,6 +17,7 @@ if __name__ == "__main__":
 
     groundtruth = []
     predicted = []
+    list_times = []
 
     list_sources = os.listdir(datatset_dir)
 
@@ -45,13 +46,15 @@ if __name__ == "__main__":
             else:
                 predicted.append(1)
 
+            list_times.append(end-start)
+
     test_roc = roc_auc_score(groundtruth, predicted)
     test_acc = accuracy_score(groundtruth, predicted)
     test_pre = precision_score(groundtruth, predicted)
     test_rec = recall_score(groundtruth, predicted)
     test_f1s = f1_score(groundtruth, predicted)
     test_prc = average_precision_score(groundtruth, predicted)
-    test_time = (end - start) / len(list_subgraphs)
+    test_time = sum(list_times) / len(list_times)
 
     with open(os.path.join(result_dir, "%s_result.csv"%os.path.basename(alg)), "w", encoding="utf-8") as f:
         f.write("Confident,Execution Time,ROC AUC,PR AUC,Precision,Recall,F1-Score,Accuracy\n")
