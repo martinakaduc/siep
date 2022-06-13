@@ -23,10 +23,21 @@ if __name__ == "__main__":
         except:
             pass
 
-        shutil.copy(os.path.join(datasdet_folder, source, "source.lg"), os.path.join(source_dir, "source.lg"))
+        with open(os.path.join(datasdet_folder, source, "source.lg"), 'r', encoding='utf-8') as f:
+            lines = f.read().strip().split('\n')
+            with open(os.path.join(source_dir, "source.lg"), 'w', encoding='utf-8') as wf:
+                for wline in lines:
+                    if not wline:
+                        continue
+                    if wline[0] == 'e':
+                        wline = wline[:wline.rfind(" ")]
+                    wf.write("%s\n" % wline)
+
+                wf.write("t # -1")
+            
 
         with open(os.path.join(datasdet_folder, source, "iso_subgraphs.lg"), 'r', encoding="utf-8") as f:
-            lines = f.read().split("\n")
+            lines = f.read().strip().split("\n")
             first_line_idxs = [i for i, line in enumerate(lines) if 't #' in line]
             first_line_idxs.append(len(lines))
             sg_count = 0
@@ -44,7 +55,7 @@ if __name__ == "__main__":
                 sg_count += 1
 
         with open(os.path.join(datasdet_folder, source, "noniso_subgraphs.lg"), 'r', encoding="utf-8") as f:
-            lines = f.read().split("\n")
+            lines = f.read().strip().split("\n")
             first_line_idxs = [i for i, line in enumerate(lines) if 't #' in line]
             first_line_idxs.append(len(lines))
             sg_count = 0
