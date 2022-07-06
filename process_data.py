@@ -22,7 +22,7 @@ if __name__ == "__main__":
     print("Processing datatset:", datasdet_folder)
     list_sources = os.listdir(datasdet_folder)
 
-    if split_source
+    if split_source:
         from sklearn.model_selection import train_test_split
         _, list_sources = train_test_split(list_sources, test_size=0.2, random_state=42)
 
