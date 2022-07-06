@@ -8,6 +8,12 @@ READY_DATASET_DIR = "./datasets"
 if __name__ == "__main__":
     datasdet_folder = sys.argv[1]
     READY_DATASET_DIR += '/' + sys.argv[2]
+    split_source = False
+
+    if len(sys.argv > 3):
+        if sys.argv[3] == "synthesis":
+            split_source = True
+
     try:
         os.mkdir(READY_DATASET_DIR)
     except:
@@ -15,6 +21,10 @@ if __name__ == "__main__":
 
     print("Processing datatset:", datasdet_folder)
     list_sources = os.listdir(datasdet_folder)
+
+    if split_source
+        from sklearn.model_selection import train_test_split
+        _, list_sources = train_test_split(list_sources, test_size=0.2, random_state=42)
 
     for source in tqdm(list_sources):
         source_dir = os.path.join(READY_DATASET_DIR, source)
