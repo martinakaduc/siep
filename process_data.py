@@ -10,7 +10,7 @@ if __name__ == "__main__":
     READY_DATASET_DIR += '/' + sys.argv[2]
     split_source = False
 
-    if len(sys.argv > 3):
+    if len(sys.argv) > 3:
         if sys.argv[3] == "synthesis":
             split_source = True
 
