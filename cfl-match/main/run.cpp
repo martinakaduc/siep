@@ -86,6 +86,7 @@ int main(int argc, const char *argv[]) {
 	//release all and flush cached writes
 	for(int i = 0; i < qnum; ++i)
 		delete query_list[i];
+	io.flush();
 
 	cout << (numembeddings > 0 ? "True" : "False") << endl;
 	
