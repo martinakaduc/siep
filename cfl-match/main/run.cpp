@@ -83,9 +83,10 @@ int main(int argc, const char *argv[]) {
 	}
 	printf("%-15s nembeddings:%6ld;   ncalls:%8ld;   time:%8ld ms;   mem:%8.0lf kB    %s\n",
 		"cfl: ", numembeddings, totcalls, tottime, max_mem, qid.c_str());
+		
 	//release all and flush cached writes
-	for(int i = 0; i < qnum; ++i)
-		delete query_list[i];
+	// for(int i = 0; i < qnum; ++i)
+	// 	delete query_list[i];
 	io.flush();
 
 	cout << (numembeddings > 0 ? "True" : "False") << endl;
