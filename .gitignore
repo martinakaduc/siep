@@ -36,3 +36,4 @@
 *.dSYM
 *.txt
 *.lg
+.DS_Store

@@ -36,12 +36,18 @@ if __name__ == "__main__":
         with open(os.path.join(datasdet_folder, source, "source.lg"), 'r', encoding='utf-8') as f:
             lines = f.read().strip().split('\n')
             with open(os.path.join(source_dir, "source.lg"), 'w', encoding='utf-8') as wf:
+                # Count num_vertices, num_edges, num_distinct_labels
+                num_vertices = sum([1 if "v " in l else 0 for l in lines])
+                num_edges = sum([1 if "e " in l else 0 for l in lines])
+                num_labels = len(set([l.split(" ")[-1] for l in lines if "v " in l]))
                 for wline in lines:
                     if not wline:
                         continue
                     if wline[0] == 'e':
                         wline = wline[:wline.rfind(" ")]
                     wf.write("%s\n" % wline)
+                    if ("t # " in wline):
+                        wf.write("%d %d %d\n" % (num_vertices, num_edges, num_labels))
 
                 wf.write("t # -1")
             
@@ -53,12 +59,17 @@ if __name__ == "__main__":
             sg_count = 0
             for start, end in zip(first_line_idxs[:-1], first_line_idxs[1:]):
                 with open(os.path.join(source_dir, "%s_%d_iso.lg"%(source, sg_count)), 'w', encoding="utf-8") as wf:
+                    num_vertices = sum([1 if "v " in l else 0 for l in lines[start:end]])
+                    num_edges = sum([1 if "e " in l else 0 for l in lines[start:end]])
+                    num_labels = len(set([l.split(" ")[-1] for l in lines[start:end] if "v " in l]))
                     for wline in lines[start:end]:
                         if not wline:
                             continue
                         if wline[0] == 'e':
                             wline = wline[:wline.rfind(" ")]
                         wf.write("%s\n" % wline)
+                        if ("t # " in wline):
+                            wf.write("%d %d %d\n" % (num_vertices, num_edges, num_labels))
 
                     wf.write("t # -1")
 
@@ -71,12 +82,17 @@ if __name__ == "__main__":
             sg_count = 0
             for start, end in zip(first_line_idxs[:-1], first_line_idxs[1:]):
                 with open(os.path.join(source_dir, "%s_%d_noniso.lg"%(source, sg_count)), 'w', encoding="utf-8") as wf:
+                    num_vertices = sum([1 if "v " in l else 0 for l in lines[start:end]])
+                    num_edges = sum([1 if "e " in l else 0 for l in lines[start:end]])
+                    num_labels = len(set([l.split(" ")[-1] for l in lines[start:end] if "v " in l]))
                     for wline in lines[start:end]:
                         if not wline:
                             continue
                         if wline[0] == 'e':
                             wline = wline[:wline.rfind(" ")]
                         wf.write("%s\n" % wline)
+                        if ("t # " in wline):
+                            wf.write("%d %d %d\n" % (num_vertices, num_edges, num_labels))
 
                     wf.write("t # -1")
 
