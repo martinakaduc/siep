@@ -7,6 +7,7 @@
 #ifndef _GRAPH_GRAPH_H
 #define _GRAPH_GRAPH_H
 
+#include <numeric>
 #include "../util/Util.h"
 using namespace std;
 
@@ -32,11 +33,11 @@ public:
 	int *lb_cnt;
 	//vector<Vertex> vertices;
 	int *vlb, *deg, n, m, lbn;
-	vector<int> *nbs;
+	int **nbs;
 	
 	// Will be init for ease of CPI construction
 	int *mnd;
-	vector<unordered_map<int, int> > nlbcnt;	// nlbcnt[i] is neighbor label set of vi
+	unordered_map<int, int> *nlbcnt;	// nlbcnt[i] is neighbor label set of vi
 	
 	// Exist only if *this is a query graph
 	vector<VID> Core, Forest;
@@ -47,7 +48,13 @@ public:
 	Graph(int numVertex, int numEdge, int lbn_):n(numVertex), m(numEdge), lbn(lbn_) {
 		vlb = new int[n];
 		deg = new int[n];
-		nbs = new vector<int>[n];
+		nbs = new int*[n];
+		for (int i = 0; i<n; i++) {
+			nbs[i] = new int[n];
+			for (int j = 0; j<n; j++)
+				nbs[i][j] = 0;
+		}
+		nlbcnt = new unordered_map<int, int>[n];
 		mnd = new int[n];
 		lb_cnt = new int[lbn+1];
 		memset(lb_cnt, 0, (lbn+1)*sizeof(int));
@@ -55,7 +62,7 @@ public:
 	}
 	~Graph() {
 		delete[] vlb; delete[] deg; 
-		//delete[] nbs; 
+		delete[] nbs;
 		delete[] mnd; 
 		delete[] lb_cnt;
 		if(inCore) delete[] inCore; 

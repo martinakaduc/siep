@@ -30,7 +30,7 @@ void CPI::FindRoot(){
 		if (data_graph->lb_cnt[label] == 0) 
 			continue;
 		double index = ((double)data_graph->lb_cnt[label]) / 
-			query_graph->nbs[tid].size(); //vertices[tid].deg;
+			accumulate(query_graph->nbs[tid], query_graph->nbs[tid]+query_graph->n, 0); //vertices[tid].deg;
 		if (index < tmpmin){
 			tmpmin = index;
 			tmpid = tid;
@@ -68,8 +68,10 @@ void CPI::BuildSpanningTree(){
 		
 		/* Iteratively look up all neighbors tryid of curid */
 		//int s0 = query_graph->nbs[curid].size();	 //vertices[curid].nbs.size();
-		for(unsigned i = 0; i < query_graph->nbs[curid].size(); i++){
-			int tryid = query_graph->nbs[curid][i];		//vertices[curid].nbs[i];
+
+		for(unsigned i = 0; i < query_graph->n; i++){
+			if (query_graph->nbs[curid][i] == 0) continue;
+			int tryid = i;		//vertices[curid].nbs[i];
 			/* already in qt (in upper or same level) ==> cont */
 			if (inqt[tryid]) 
 				continue;
@@ -122,7 +124,9 @@ bool CPI::CPI_Construct(){
 
 	/* Find root match */
 	for (int i=0; i < data_graph->n; i++){
-		if (data_graph->vlb[i]  != query_graph->vlb[rootid] || data_graph->nbs[i].size() < query_graph->nbs[rootid].size())	// label and deg check!
+		int dg_size = accumulate(data_graph->nbs[i], data_graph->nbs[i]+data_graph->n, 0);
+		int qg_size = accumulate(query_graph->nbs[rootid], query_graph->nbs[rootid]+query_graph->n, 0);
+		if (data_graph->vlb[i]  != query_graph->vlb[rootid] || dg_size < qg_size)	// label and deg check!
 			continue;
 		if (CandVerify(i, rootid)) C[rootid].push_back(i);
 	}vis[rootid] = true;
@@ -139,9 +143,11 @@ bool CPI::CPI_Construct(){
 			int u = nodeoflev[lev][k];
 			Cnt = 0;
 			set<int> touched;
+			int qg_size = accumulate(query_graph->nbs[u], query_graph->nbs[u]+query_graph->n, 0);
 			/* Each vised neighbor u_ of u */
-			for (int i=0; i<query_graph->nbs[u].size(); i++) {
-				int u_ = query_graph->nbs[u][i];
+			for (int i=0; i<query_graph->n; i++) {
+				if (query_graph->nbs[u][i] == 0) continue;
+				int u_ = i;
 				if (vis[u_] == false && levup[u_] == lev)
 					UN[u].push_back(u_);
 				else if (vis[u_]){
@@ -149,11 +155,13 @@ bool CPI::CPI_Construct(){
 					for(int j=0; j < C[u_].size(); j++){
 						int v_ = C[u_][j];
 						/* Each v ajd to v_ */
-						for(int h=0; h < data_graph->nbs[v_].size(); h++){
-							int v = data_graph->nbs[v_][h];
+						for(int h=0; h < data_graph->n; h++){
+							if (data_graph->nbs[v_][h] == 0) continue;
+							int v = h;
 							if (data_graph->vlb[v] != query_graph->vlb[u])
 								continue;
-							if (data_graph->nbs[v].size() < query_graph->nbs[u].size())
+							int dg_size = accumulate(data_graph->nbs[v], data_graph->nbs[v]+data_graph->n, 0);
+							if (dg_size < qg_size)
 								continue;
 							touched.insert(v);
 							if (cnt[v] == Cnt) 
@@ -180,6 +188,7 @@ bool CPI::CPI_Construct(){
 			int u = nodeoflev[lev][k];
 			Cnt=0;
 			vector<int> touched;
+			int qg_size = accumulate(query_graph->nbs[u], query_graph->nbs[u]+query_graph->n, 0);
 			/* For each u_ in u.UN */
 			int s5 = UN[u].size();
 			for (int i=0; i<s5; i++){
@@ -189,11 +198,13 @@ bool CPI::CPI_Construct(){
 				for(int j=0; j<s6; j++){
 					int v_ = C[u_][j];
 					/* Each v ajd to v_ */
-					for(unsigned h=0; h<data_graph->nbs[v_].size(); h++){
-						int v = data_graph->nbs[v_][h];
+					for(unsigned h=0; h<data_graph->n; h++){
+						if (data_graph->nbs[v_][h] == 0) continue;
+						int v = h;
 						if (data_graph->vlb[v] != query_graph->vlb[u])
 							continue;
-						if (data_graph->nbs[v].size() < query_graph->nbs[u].size())
+						int dg_size = accumulate(data_graph->nbs[v], data_graph->nbs[v]+data_graph->n, 0);
+						if (dg_size < qg_size)
 							continue;
 						touched.push_back(v);
 						if (cnt[v] == Cnt) 
@@ -233,10 +244,11 @@ bool CPI::CPI_Construct(){
 				cout.flush();
 				int vp = C[up][i];
 				/* Each v adj to vp in data graph */
-				int s6 = data_graph->nbs[vp].size();
+				// int s6 = data_graph->nbs[vp].size();
 				int prevv=-1;
-				for(int j=0; j<s6; j++){
-					int v = data_graph->nbs[vp][j];	//vertices[vp].nbs[j];
+				for(int j=0; j<data_graph->n; j++){
+					if (data_graph->nbs[vp][j] == 0) continue;
+					int v = j;	//vertices[vp].nbs[j];
 					if (data_graph->vlb[v] != query_graph->vlb[u]) 
 						continue;
 					if (find(C[u].begin(), C[u].end(), v) == C[u].end()) 
@@ -258,9 +270,11 @@ bool CPI::CPI_Construct(){
 			int u = nodeoflev[lev][k];
 			vector<int> touched;
 			int Cnt = 0;
+			int qg_size = accumulate(query_graph->nbs[u], query_graph->nbs[u]+query_graph->n, 0);
 			/* u's each (lower-lev) neighbor u_ */
-			for (int i=0; i<query_graph->nbs[u].size(); i++){
-				int u_ = query_graph->nbs[u][i];
+			for (int i=0; i<query_graph->n; i++){
+				if (query_graph->nbs[u][i] == 0) continue;
+				int u_ = i;
 				if (levup[u_] < levup[u])	// Only look for lower-lev nb of u
 					continue;
 				
@@ -269,11 +283,13 @@ bool CPI::CPI_Construct(){
 				for(int j=0; j<s3; j++){
 					int v_ = C[u_][j];
 					/* Each v ajd to v_ */
-					for(int h=0; h<data_graph->nbs[v_].size(); h++){
-						int v = data_graph->nbs[v_][h];
+					for(int h=0; h<data_graph->n; h++){
+						if (data_graph->nbs[v_][h] == 0) continue;
+						int v = h;
 						if (data_graph->vlb[v] != query_graph->vlb[u])
 							continue;
-						if (data_graph->nbs[v].size() < query_graph->nbs[u].size())
+						int dg_size = accumulate(data_graph->nbs[v], data_graph->nbs[v]+data_graph->n, 0);
+						if (dg_size < qg_size)
 							continue;
 						touched.push_back(v);
 						if (cnt[v] == Cnt) 
@@ -511,14 +527,15 @@ void CPI::Set_Core_seq(){
 // Potential Optimization
 bool CPI::ValidateNT(int v, int u) {
 	// Each neighbor u_ of u in query_graph
-	for(unsigned i=0; i<query_graph->nbs[u].size(); i++) {
-		int u_ = query_graph->nbs[u][i];	//vertices[u].nbs[i];
+	for(unsigned i=0; i<query_graph->n; i++) {
+		if (query_graph->nbs[u][i] == 0) continue;
+		int u_ = i;	//vertices[u].nbs[i];
 		if (pid[u] == u_) 	// No need to check parent
 			continue;
 		if (M.find(u_) == M.end()) 	// skip the unmatched neighbors of u
 			continue;
-		vector<int> &Mu_nbs = data_graph->nbs[M[u_]];	//vertices[M[u_]].nbs;
-		if (find(Mu_nbs.begin(), Mu_nbs.end(), v) == Mu_nbs.end())
+		// vector<int> &Mu_nbs = data_graph->nbs[M[u_]];	//vertices[M[u_]].nbs;
+		if (data_graph->nbs[M[u_]][v] == 0)
 			return false;	// v is not a neighbor of M[nb(u)]
 	}
 	return true;

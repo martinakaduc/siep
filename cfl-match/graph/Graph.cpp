@@ -11,13 +11,13 @@ void Graph::addVertex(int vid, int _vlb){
 	vlb[vid] = _vlb;
 	//vertices.push_back(Vertex(_vlb));
 	lb_cnt[_vlb]++;
-	nlbcnt.push_back(unordered_map<int,int>());
+	// nlbcnt.push_back(unordered_map<int,int>());
 }
 
 void Graph::addEdge(VID _from, VID _to){
     //treated as undirected edge
-	nbs[_from].push_back(_to);
-	nbs[_to].push_back(_from);
+	nbs[_from][_to] = 1;
+	nbs[_to][_from] = 1;
 	deg[_from]++;
 	deg[_to]++;
 
@@ -39,8 +39,9 @@ void Graph::decompose(){
 	vector<vector<int> > G;
 	G.resize(n);
 	for(int i=0; i<n; i++){
-		for(int j=0; j<nbs[i].size(); j++){
-			G[i].push_back(nbs[i][j]);	
+		for(int j=0; j<n; j++){
+			if (nbs[i][j] == 1)
+				G[i].push_back(j);	
 		}
 	}
 	queue<int> degone;
@@ -83,9 +84,9 @@ void Graph::decompose(){
 		}
 		bool isrt = false;
 
-		auto it = nbs[i].begin();			// go through all neighbors of ui
-		for(; it != nbs[i].end(); ++it){	// If a notCore is around, new root!
-			if(!inCore[*it]){
+		// auto it = nbs[i].begin();			// go through all neighbors of ui
+		for(int it=0; it<n; ++it){	// If a notCore is around, new root!
+			if(nbs[i][it] == 1 && !inCore[it]){
 				isrt = true;
 				break;
 			}
@@ -104,11 +105,11 @@ void Graph::decompose(){
 				pt->inTree[id] = true;
 				//assert(id < n);
 				suspend[id] = false;	// Not suspend == already assigned into treenodes
-				auto it = nbs[id].begin();
-				for(; it != nbs[id].end(); ++it){
+				// auto it = nbs[id].begin();
+				for(int it=0; it<n; ++it){
 					//assert(*it < n);
-					if(suspend[*it])
-						q.push(*it);
+					if(nbs[i][it] == 1 && suspend[it])
+						q.push(it);
 				}
 			}
 			trees.push_back(pt);
@@ -135,13 +136,15 @@ void Graph::Precond(){
 	// Process each u in graph iteratively
 	for (int u = 0; u < n; u++){
 		tmp_max = 0;				// max neighbor degree
-		for(unsigned i = 0; i < nbs[u].size(); i++){	// Process each nb of u
-			int nbid = nbs[u][i];
-			if (nbs[nbid].size() > tmp_max)
-				tmp_max = nbs[nbid].size();
+		for(unsigned i = 0; i<n; i++){	// Process each nb of u
+			if (nbs[u][i] == 0) continue;
+			int nbid = i;
+			int nbid_count = accumulate(nbs[nbid], nbs[nbid]+n, 0);
+			if (nbid_count > tmp_max)
+				tmp_max = nbid_count;
 			//printf("u=%d, vlb[nbid]=%d, \n ", u, vlb[nbid]);
 			//printf("nlbcnt[u][0]=%d\n", nlbcnt[u][0]);
-			nlbcnt[u][0];
+			// nlbcnt[u][0];
 			fflush(stdout);
 			nlbcnt[u][vlb[nbid]]++;					// update label cnt of u
 		}

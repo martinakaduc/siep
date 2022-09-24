@@ -7,6 +7,7 @@
 #ifndef _CPI_CPI_H
 #define _CPI_CPI_H
 
+#include <numeric>
 #include "../util/Util.h"
 #include "../graph/Graph.h"
 
