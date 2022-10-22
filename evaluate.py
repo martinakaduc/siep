@@ -54,9 +54,9 @@ if __name__ == "__main__":
                 predicted.append(1)
 
             list_times.append(end-start)
-            easy_pct = len(list(filter(lambda x: x < easy_thres, list_times)))
-            medium_pct = len(list(filter(lambda x: x >= easy_thres and x < hard_thres, list_times)))
-            hard_pct = len(list(filter(lambda x: x >= hard_thres, list_times)))
+            easy_pct = len(list(filter(lambda x: x < easy_thres, list_times))) / len(list_times)
+            medium_pct = len(list(filter(lambda x: x >= easy_thres and x < hard_thres, list_times))) / len(list_times)
+            hard_pct = len(list(filter(lambda x: x >= hard_thres, list_times))) / len(list_times)
 
             print("Average runtime:", sum(list_times) / len(list_times), "\t", \
                   "Easy:", easy_pct, "\t", \
