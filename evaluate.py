@@ -62,7 +62,7 @@ if __name__ == "__main__":
                   "Easy:", easy_pct, "\t", \
                   "Medium:", medium_pct, "\t", \
                   "Hard:", hard_pct, "\t", \
-                   end="\r", flush=True)
+                  "Total samples:", len(list_times), end="\r", flush=True)
 
     test_roc = roc_auc_score(groundtruth, predicted)
     test_acc = accuracy_score(groundtruth, predicted)
