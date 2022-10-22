@@ -15,6 +15,13 @@ if __name__ == "__main__":
     except:
         pass
 
+    if len(sys.argv) >= 6:
+        easy_thres = int(sys.argv[4])
+        hard_thres = int(sys.argv[5])
+    else:
+        easy_thres = 2
+        hard_thres = 600
+
     groundtruth = []
     predicted = []
     list_times = []
@@ -47,6 +54,15 @@ if __name__ == "__main__":
                 predicted.append(1)
 
             list_times.append(end-start)
+            easy_pct = len(list(filter(lambda x: x < easy_thres, list_times)))
+            medium_pct = len(list(filter(lambda x: x >= easy_thres and x < hard_thres, list_times)))
+            hard_pct = len(list(filter(lambda x: x >= hard_thres, list_times)))
+
+            print("Average runtime:", sum(list_times) / len(list_times), "\t", \
+                  "Easy:", easy_pct, "\t", \
+                  "Medium:", medium_pct, "\t", \
+                  "Hard:", hard_pct, "\t", \
+                   end="\r", flush=True)
 
     test_roc = roc_auc_score(groundtruth, predicted)
     test_acc = accuracy_score(groundtruth, predicted)
