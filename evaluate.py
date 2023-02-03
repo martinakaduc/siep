@@ -71,6 +71,9 @@ if __name__ == "__main__":
     test_f1s = f1_score(groundtruth, predicted)
     test_prc = average_precision_score(groundtruth, predicted)
     test_time = sum(list_times) / len(list_times)
+    easy_pct = len(list(filter(lambda x: x < easy_thres, list_times))) / len(list_times)
+    medium_pct = len(list(filter(lambda x: x >= easy_thres and x < hard_thres, list_times))) / len(list_times)
+    hard_pct = len(list(filter(lambda x: x >= hard_thres, list_times))) / len(list_times)
 
     with open(os.path.join(result_dir, "%s_result.csv"%os.path.basename(alg)), "w", encoding="utf-8") as f:
         f.write("Confident,Execution Time,ROC AUC,PR AUC,Precision,Recall,F1-Score,Accuracy\n")
@@ -82,3 +85,11 @@ if __name__ == "__main__":
         f.write(",%f" % test_rec)
         f.write(",%f" % test_f1s)
         f.write(",%f" % test_acc)
+        
+        f.write("\n")
+        f.write("Total samples: %d\n" % len(list_times))
+        f.write("Easy: %f\n" % easy_pct)
+        f.write("Medium: %f\n" % medium_pct)
+        f.write("Hard: %f\n" % hard_pct)
+
+        
